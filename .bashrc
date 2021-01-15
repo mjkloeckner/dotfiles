@@ -13,4 +13,4 @@ alias cl='clear'
 
 PS1='[\u@\h \W]\$ '
 
-PATH="$PATH:/home/mk/.scripts"
+PATH="$PATH:/home/mk/scripts"
