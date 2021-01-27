@@ -1,5 +1,5 @@
 
-# swap block mayus and escape;
+# swap lock mayus and escape;
 setxkbmap -option caps:swapescape
 
 # start i3 window manager;
