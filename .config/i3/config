@@ -239,7 +239,7 @@ bindsym $mod+Shift+Tab workspace prev
 bindsym $mod2+l exec --no-startup-id lockscreen 
 
 # execute xbindkeys which is an app for mapping keys;
-exec --no-startup-id xbindkeys
+exec --no-startup-id xbindkeys -f ~/.config/xbindkeys/xbindkeys/.xbindkeysrc
 
 # restore the wallpaper;
 exec --no-startup-id nitrogen --restore
