@@ -4,8 +4,8 @@
 #	| |/ / |/ _ \ \ /\ / / _ \ '__| | | |_ \ / __/ _ \| '_ \| |_| |/ _` |
 #	|   <| |  __/\ V  V /  __/ |    | |___) | (_| (_) | | | |  _| | (_| |
 #	|_|\_\_|\___| \_/\_/ \___|_|    |_|____/ \___\___/|_| |_|_| |_|\__, |
-#																	|___/ 
-#	made by @klewer-martin
+#                                                                 |___/ 
+#	made by guthub.com/klewer-martin
 #
 #	this config file is not done yet, and it's in constant improvement
 		
@@ -21,16 +21,17 @@
 #	resizing them and moving around, etc; $mod2 in exchange is focused on
 #	launching applications;
 
-set $mod Mod1
-set $mod2 Mod4
 
+#exec --no-startup-id lockscreen
 
+set $mod Mod4
+#set $mod2 Mod4
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym $mod+q kill
 
 # change focus
 bindsym $mod+j focus left
@@ -66,8 +67,8 @@ bindsym $mod+v split v
 bindsym $mod+Shift+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+e layout toggle split
+#bindsym $mod+s layout stacking
+#bindsym $mod+e layout toggle split
 #bindsym $mod+w layout tabbed
 
 # toggle tiling / floating
@@ -131,10 +132,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym j resize shrink width 5 px or 5 ppt
+        bindsym k resize grow height 5 px or 5 ppt
+        bindsym l resize shrink height 5 px or 5 ppt
+        bindsym semicolon resize grow width 5 px or 5 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -152,23 +153,24 @@ bindsym $mod+r mode "resize"
 
 
 #########################################
-#		Bar settings					#
+#		Bar settings					              #
 #########################################
 
 # color and transparency (if enabled in bar config below) setiings;
 #                 RRGGBBAA
-set $transparent #111111c5
+set $transparent #33333395
 
 bar {
 	position top
 	status_command i3status
 	font pango:Source Code Pro Bold	8
 	i3bar_command i3bar --transparency
-
+	tray_padding 1
 	colors {
 		background $transparent
 	}
 }
+
 
 
 #########################################
@@ -176,7 +178,7 @@ bar {
 #########################################
 
 # default border style;
-default_border none
+default_border pixel 0
 
 # hide the tittle bar;
 for_window [class="^.*"] border pixel 2
@@ -186,6 +188,12 @@ new_window 1pixel
 gaps inner 8
 gaps outer 3
 
+bindsym $mod+i gaps inner current plus 2
+bindsym $mod+Shift+i gaps inner current minus 2
+
+bindsym $mod+o gaps outer current plus 2
+bindsym $mod+Shift+o gaps outer current minus 2
+
 # smart gaps removes the border when only a windows is active in the workspace;
 #smart_gaps on
 
@@ -193,11 +201,12 @@ gaps outer 3
 #smart_borders on
 
 # This is to avoid getting floating windows to large;
-floating_maximum_size 480 x 240
-floating_minimum_size 75 x 50
+# floating_maximum_size 480 x 240
+# floating_minimum_size 75 x 50
 
-
-
+# class                 border  backgr. text    indicator child_border
+# client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
+client.focused          #dd0000 #dd0000  #ffffff #dd0000   #dd0000
 
 
 
@@ -206,40 +215,52 @@ floating_minimum_size 75 x 50
 #########################################
 
 # start firefox;
-bindsym $mod2+f exec firefox
+bindsym $mod+w exec --no-startup-id firefox
 
 # start ranger;
-bindsym $mod2+d exec --no-startup-id terminator -e ranger
-
-# start a terminal
-bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
+bindsym $mod+e exec --no-startup-id st -e ranger
 
 # start spotify;
-bindsym $mod2+s exec --no-startup-id spotify
+bindsym $mod+s exec --no-startup-id spotify
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run 
+# start a terminal;
+bindsym $mod+Return exec --no-startup-id st 
 
+# start dmenu (a program launcher);
+bindsym $mod+d exec --no-startup-id ~/packages/dmenu/dmenu_run_history
 
+# start htop;
+#bindsym $mod2+h exec --no-startup-id launchhtop
 
+# start pulse effects;
+#bindsym $mod2+p exec --no-startup-id pulseeffects
+
+# toggle bar; 
+bindsym $mod+b bar mode toggle
+
+# take a screenshot
+bindsym Print exec --no-startup-id takescreenshot
 
 
 #########################################
 #		Miscellaneous					#
 #########################################
 
-# disable mouse acceleration
-exec --no-startup-id disablemouseaccel
+# disable mouse acceleration;
+exec --no-startup-id configmouses
 
 # alt tab workspace switching;
-bindsym $mod+Tab workspace next
+# bindsym $mod+Tab workspace next
+ 
+bindsym $mod+Tab workspace back_and_forth
+
 bindsym $mod+Shift+Tab workspace prev
 
 # lock screen;
-bindsym $mod2+l exec --no-startup-id lockscreen 
+# bindsym $mod2+l exec --no-startup-id lockscreen 
 
 # execute xbindkeys which is an app for mapping keys;
-exec --no-startup-id xbindkeys -f ~/.config/xbindkeys/xbindkeys/.xbindkeysrc
+exec --no-startup-id xbindkeys
 
 # restore the wallpaper;
 exec --no-startup-id nitrogen --restore
@@ -249,7 +270,10 @@ exec --no-startup-id picom
 
 # xss-lock grabs a logind suspend inhibit lock and will use betterlockscreen 
 # to lock the screen before suspend. 
-exec --no-startup-id xss-lock lockscreen 
+exec --no-startup-id xss-lock -l lockscreen
+
+# lock the screen on startup;
+exec --no-startup-id lockscreen 
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.

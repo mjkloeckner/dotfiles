@@ -1,4 +1,3 @@
-
 "							   _           
 "		 _ __   ___  _____   _(_)_ __ ___  
 "		| '_ \ / _ \/ _ \ \ / / | '_ ` _ \ 
@@ -33,11 +32,17 @@
 	set encoding=utf-8
 	set tabstop=4
 	set shiftwidth=4
+	set incsearch
+	set smartcase
 
 " Key remaps
 	let mapleader ='\'
 
+	" Open file tree;
 	map <leader>n :NERDTreeToggle<CR>
+
+	" Stops highlight after a search hitting return;
+	nnoremap <CR> :noh<CR><CR>
 
 	" Shortcut for split navigation
 	noremap <C-Down> <C-W>j<CR>

@@ -1,10 +1,11 @@
-#           _              
+#				 _              
 #		 _______| |__  _ __ ___ 
 #		|_  / __| '_ \| '__/ __|
 #		 / /\__ \ | | | | | (__ 
 #		/___|___/_| |_|_|  \___|
 #								
-# 		by @klewer-martin
+# 		by github.com/klewer-martin
+#
 
 HISTFILE=~/.cache/histfile
 HISTSIZE=10000
@@ -15,6 +16,8 @@ zstyle :compinstall filename '/home/mk/.zshrc'
 autoload -Uz compinit
 compinit
 
+_comp_options+=(globdots)
+
 # Add my personal scripts folder to path
 PATH="$PATH:/home/mk/scripts"
 
@@ -24,7 +27,9 @@ alias ls='ls --color=auto'
 alias la='ls -la'
 alias ll='ls -l'
 alias cl='clear'
+alias grep='grep --color=auto'
 alias v='nvim'
+alias vim='nvim'
 alias sv='sudo nvim'
 
 # this part sets a nice colored bash like prompt;
@@ -56,4 +61,3 @@ bindkey '^[[1;5C' forward-word                  # ctrl+right go forward one word
 bindkey '^[[1;5D' backward-word                 # ctrl+left  go backward one word
 bindkey '^H'      backward-kill-word            # ctrl+bs    delete previous word
 bindkey '^[[3;5~' kill-word                     # ctrl+del   delete next word
-
