@@ -34,6 +34,8 @@
 	set shiftwidth=4
 	set incsearch
 	set smartcase
+	set noshowmode
+	highlight VertSplit cterm=NONE
 
 " Key remaps
 	let mapleader ='\'
