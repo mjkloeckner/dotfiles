@@ -16,6 +16,7 @@ zstyle :compinstall filename '/home/mk/.zshrc'
 autoload -Uz compinit
 compinit
 
+# This enables autocomplete for dotfiles (hidden in unix like OSs)
 _comp_options+=(globdots)
 
 # Add my personal scripts folder to path
