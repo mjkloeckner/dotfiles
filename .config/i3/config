@@ -205,9 +205,9 @@ bindsym $mod+Shift+o gaps outer current minus 2
 # floating_minimum_size 75 x 50
 
 # class                 border  backgr. text    indicator child_border
-# client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
-client.focused          #dd0000 #dd0000  #ffffff #dd0000   #dd0000
-
+client.focused          #285577 #285577 #ffffff #285577   #285577
+#client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
+#client.focused          #dd0000 #dd0000 #ffffff #dd0000   #dd0000
 
 
 #########################################
