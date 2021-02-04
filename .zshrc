@@ -11,6 +11,9 @@ HISTFILE=~/.cache/histfile
 HISTSIZE=10000
 SAVEHIST=10000
 
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
 zstyle :compinstall filename '/home/mk/.zshrc'
 
 autoload -Uz compinit
@@ -38,6 +41,8 @@ alias vim='nvim'
 alias sv='sudo nvim'
 alias r='ranger'
 alias xclip='xclip -selection clipboard'
+alias matrix='unimatrix -n -s 95 -l o -a'
+alias df='df -h | grep -v snapd'
 
 # this part sets a nice colored bash like prompt;
 autoload -U colors && colors
@@ -45,8 +50,7 @@ autoload -U colors && colors
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[blue]%}%1~%{$fg[red]%}]%{$reset_color%}$%b "
 
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+
 
 # starts the x server (because I don't use a disply manager)
 if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
