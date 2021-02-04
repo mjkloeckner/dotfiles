@@ -35,6 +35,8 @@
 	set incsearch
 	set smartcase
 	set noshowmode
+	set relativenumber
+
 	highlight VertSplit cterm=NONE
 
 " Key remaps
