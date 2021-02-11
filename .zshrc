@@ -21,6 +21,9 @@ compinit
 
 _comp_options+=(globdots)
 
+
+bindkey -e
+
 # Add my personal scripts folder to path
 PATH="$PATH:/home/mk/scripts"
 
@@ -34,6 +37,7 @@ set preview_images_method ueberzug
 alias ls='ls --color=auto'
 alias la='ls -la'
 alias ll='ls -l'
+alias l='ls'
 alias cl='clear'
 alias grep='grep --color=auto'
 alias v='nvim'
@@ -43,6 +47,10 @@ alias r='ranger'
 alias xclip='xclip -selection clipboard'
 alias matrix='unimatrix -n -s 95 -l o -a'
 alias df='df -h | grep -v snapd'
+alias gs='git status'
+alias gc='git commit'
+alias gpush='git push'
+alias gpull='git push'
 
 # this part sets a nice colored bash like prompt;
 autoload -U colors && colors
@@ -78,8 +86,8 @@ zle -N down-line-or-beginning-search
 
 bindkey '^[[P'    delete-char					# delete 	 delete previous char
 bindkey '^[[H'    beginning-of-line             # home       go to the beginning of line
-bindkey '^[[F'    end-of-line                   # end        go to the end of line
+bindkey '^[[4~'   end-of-line                   # end        go to the end of line
 bindkey '^[[1;5C' forward-word                  # ctrl+right go forward one word
 bindkey '^[[1;5D' backward-word                 # ctrl+left  go backward one word
 bindkey '^H'      backward-kill-word            # ctrl+bs    delete previous word
-bindkey '^[[3;5~' kill-word                     # ctrl+del   delete next word
+bindkey '^[[M'	  kill-word                     # ctrl+del   delete next word
