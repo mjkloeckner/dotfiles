@@ -7,7 +7,7 @@
 # 		by github.com/klewer-martin
 #
 
-HISTFILE=~/.cache/histfile
+HISTFILE=$HOME/.cache/histfile
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -27,7 +27,7 @@ _comp_options+=(globdots)
 bindkey -e
 
 # Add my personal scripts folder to path
-PATH="$PATH:/home/mk/scripts:/home/mk/.local/share/gem/ruby/2.7.0/bin"
+PATH="$PATH:$HOME/scripts:$HOME/.local/share/gem/ruby/2.7.0/bin"
 
 # Set nvim as default editor
 export EDITOR=/usr/bin/nvim
