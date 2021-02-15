@@ -11,6 +11,8 @@ HISTFILE=~/.cache/histfile
 HISTSIZE=10000
 SAVEHIST=10000
 
+PROMPT_EOL_MARK=''
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -25,7 +27,7 @@ _comp_options+=(globdots)
 bindkey -e
 
 # Add my personal scripts folder to path
-PATH="$PATH:/home/mk/scripts"
+PATH="$PATH:/home/mk/scripts:/home/mk/.local/share/gem/ruby/2.7.0/bin"
 
 # Set nvim as default editor
 export EDITOR=/usr/bin/nvim
@@ -38,19 +40,17 @@ alias ls='ls --color=auto'
 alias la='ls -la'
 alias ll='ls -l'
 alias l='ls'
-alias cl='clear'
+alias c='clear'
 alias grep='grep --color=auto'
 alias v='nvim'
-alias vim='nvim'
 alias sv='sudo nvim'
 alias r='ranger'
 alias xclip='xclip -selection clipboard'
 alias matrix='unimatrix -n -s 95 -l o -a'
 alias df='df -h | grep -v snapd'
-alias gs='git status'
-alias gc='git commit'
-alias gpush='git push'
-alias gpull='git push'
+alias g='git'
+alias py='python'
+alias ss='sudo systemctl'
 
 # this part sets a nice colored bash like prompt;
 autoload -U colors && colors
