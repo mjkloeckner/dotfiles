@@ -1,75 +1,68 @@
 #
-#	 _    _                          _ _____                  __ _       
-#	| | _| | _____      _____ _ __  (_)___ /  ___ ___  _ __  / _(_) __ _ 
-#	| |/ / |/ _ \ \ /\ / / _ \ '__| | | |_ \ / __/ _ \| '_ \| |_| |/ _` |
-#	|   <| |  __/\ V  V /  __/ |    | |___) | (_| (_) | | | |  _| | (_| |
-#	|_|\_\_|\___| \_/\_/ \___|_|    |_|____/ \___\___/|_| |_|_| |_|\__, |
-#                                                                 |___/ 
+#	 _ _____                  __ _       
+#	(_)___ /  ___ ___  _ __  / _(_) __ _ 
+#	| | |_ \ / __/ _ \| '_ \| |_| |/ _` |
+#	| |___) | (_| (_) | | | |  _| | (_| |
+#	|_|____/ \___\___/|_| |_|_| |_|\__, |
+#                                  |___/ 
+                           
 #	made by guthub.com/klewer-martin
 #
 #	this config file is not done yet, and it's in constant improvement
 		
 
 #	You'll need to have installed the following apps in order to work
-#	properly:
+#	properly: 
 #	xss-lock, betterlockscreen, dmenu, networkmanager + nm-applet, i3status,
-#	xbindkeys, nitrogen, picom.
+#	xbindkeys, nitrogen, picom. (and probably more);
 
 
-#	set $mod key to alt & $mod2 to super key
-#	$mod1 its pointed towards containers managment i.e. moving throw workspaces
-#	resizing them and moving around, etc; $mod2 in exchange is focused on
-#	launching applications;
-
-
-#exec --no-startup-id lockscreen
-
+#	set $mod key to super key;
 set $mod Mod4
-#set $mod2 Mod4
 
-# Use Mouse+$mod to drag floating windows to their wanted position
+# Use Mouse+$mod to drag floating windows to their wanted position;
 floating_modifier $mod
 
-# kill focused window
+# kill focused window;
 bindsym $mod+q kill
 
-# change focus
+# change focus;
 bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
 bindsym $mod+semicolon focus right
 
-# alternatively, you can use the cursor keys:
+# alternatively, you can use the cursor keys;
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# move focused window
+# move focused window;
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
 bindsym $mod+Shift+l move up
 bindsym $mod+Shift+semicolon move right
 
-# alternatively, you can use the cursor keys:
+# alternatively, you can use the cursor keys;
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+Shift+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+Shift+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-#bindsym $mod+s layout stacking
-#bindsym $mod+e layout toggle split
-#bindsym $mod+w layout tabbed
+#bindsym $mod+Shift+t layout stacking
+bindsym $mod+Shift+t layout toggle split
+bindsym $mod+t layout tabbed
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -158,14 +151,16 @@ bindsym $mod+r mode "resize"
 
 # color and transparency (if enabled in bar config below) setiings;
 #                 RRGGBBAA
-set $transparent #33333395
+set $transparent #00000095
 
 bar {
 	position top
-	status_command i3status
+#	status_command i3status
+#	status_command exec net-speed.sh
+	status_command i3status | /home/mk/packages/i3-weather/.env/bin/python /home/mk/packages/i3-weather/weather.py --wrap-i3-status --api-key 1c56ede043bfc3a9f37fa04317775d73 --place Cachari,AR --format "⛅: {temp_c}°C"
 	font pango:Source Code Pro Bold	8
 	i3bar_command i3bar --transparency
-	tray_padding 1
+	tray_padding 4
 	colors {
 		background $transparent
 	}
@@ -181,7 +176,7 @@ bar {
 default_border pixel 0
 
 # hide the tittle bar;
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 0
 new_window 1pixel
 
 # gaps width in <px>;
@@ -205,9 +200,10 @@ bindsym $mod+Shift+o gaps outer current minus 2
 # floating_minimum_size 75 x 50
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #285577 #285577 #ffffff #285577   #285577
+#client.focused          #285577 #285577 #ffffff #285577   #285577
 #client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
 #client.focused          #dd0000 #dd0000 #ffffff #dd0000   #dd0000
+client.focused          #b02121 #b02121 #ffffff #b02121   #b02121
 
 
 #########################################
@@ -231,6 +227,12 @@ bindsym $mod+d exec --no-startup-id ~/packages/dmenu/dmenu_run_history
 
 # start htop;
 #bindsym $mod2+h exec --no-startup-id launchhtop
+
+# start gimp;
+bindsym $mod+g exec --no-startup-id gimp
+
+# start virtualbox;
+bindsym $mod+v exec --no-startup-id virtualbox -style Adwaita-dark
 
 # start pulse effects;
 #bindsym $mod2+p exec --no-startup-id pulseeffects
@@ -260,7 +262,7 @@ bindsym $mod+Shift+Tab workspace prev
 # bindsym $mod2+l exec --no-startup-id lockscreen 
 
 # execute xbindkeys which is an app for mapping keys;
-exec --no-startup-id xbindkeys
+exec --no-startup-id xbindkeys -f /home/mk/.config/xbindkeys/.xbindkeysrc
 
 # restore the wallpaper;
 exec --no-startup-id nitrogen --restore
@@ -278,3 +280,6 @@ exec --no-startup-id lockscreen
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 #exec --no-startup-id nm-applet
+
+assign [class="transmission-gtk"] 9
+assign [class="spotify"] 9

@@ -35,7 +35,9 @@
 	set incsearch
 	set smartcase
 	set noshowmode
-	set relativenumber
+	set number
+	set norelativenumber
+	set mouse=a
 
 	highlight VertSplit cterm=NONE
 

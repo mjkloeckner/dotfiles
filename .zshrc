@@ -23,7 +23,6 @@ compinit
 
 _comp_options+=(globdots)
 
-
 bindkey -e
 
 # Add my personal scripts folder to path
@@ -56,8 +55,6 @@ alias ss='sudo systemctl'
 autoload -U colors && colors
 
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[blue]%}%1~%{$fg[red]%}]%{$reset_color%}$%b "
-
-
 
 
 # starts the x server (because I don't use a disply manager)
