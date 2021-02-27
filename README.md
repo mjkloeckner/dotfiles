@@ -1,4 +1,4 @@
-# Config files from my arch+i3 build
+# Config files from my arch + i3 build
 
 This folder contains all my config files from my personal computer.
 
