@@ -16,6 +16,7 @@
 	Plug 'preservim/nerdtree'
 	Plug 'chrisbra/Colorizer'
 	Plug 'flazz/vim-colorschemes'
+	Plug 'jiangmiao/auto-pairs'
 
 	call plug#end()
 
