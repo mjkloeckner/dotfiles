@@ -22,10 +22,10 @@
 
 " Plugins settings
 	let g:airline_theme='dark'
-	let g:airline#extensions#tabline#enable = 1
+	let g:airline#extensions#tabline#enabled = 1
 	let g:colorizer_auto_color = 1
-
-
+	let g:airline_left_sep='>'
+	let g:airline_right_sep='<'
 
 " Basic settings
 	syntax on
@@ -38,14 +38,20 @@
 	set number
 	set norelativenumber
 	set mouse=a
+	set undofile
+	
+	set undodir=~/.config/nvim/undodir
 
 	highlight VertSplit cterm=NONE
 
 " Key remaps
-	let mapleader ='\'
+	let mapleader =' '
 
 	" Open file tree;
 	map <leader>n :NERDTreeToggle<CR>
+
+	" Open file tree;
+	map <leader>s :source $HOME/.config/nvim/init.vim<CR>
 
 	" Stops highlight after a search hitting return;
 	nnoremap <CR> :noh<CR><CR>
