@@ -57,7 +57,7 @@ bindsym $mod+Shift+h split h
 bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+Shift+f fullscreen toggle
+bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 #bindsym $mod+Shift+t layout stacking
@@ -176,7 +176,7 @@ bar {
 default_border pixel 0
 
 # hide the tittle bar;
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 1
 new_window 1pixel
 
 # gaps width in <px>;

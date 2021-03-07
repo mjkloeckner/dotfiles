@@ -1,0 +1,21 @@
+map I recolor
+map [fullscreen] I recolor
+
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
+
+map , scroll half-up
+map [fullscreen] , scroll half-up
+
+map . scroll half-down
+map [fullscreen] . scroll half-down
+
+map > navigate next
+map [fullscreen] > navigate next
+
+map < navigate previous
+map [fullscreen] < navigate previous
+
+map <C-p> print
+
+set default-bg "#333333"
