@@ -1,0 +1,6 @@
+[options]
+font = Source Code Pro Bold 10
+
+[colors]
+background = rgba(00, 00, 00, 0.8)
+
