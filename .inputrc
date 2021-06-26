@@ -1,0 +1,9 @@
+set editing-mode vi
+set show-mode-in-prompt on
+set vi-cmd-mode-string "\1\e[ q\2"
+set vi-ins-mode-string "\1\e[6 q\2"
+
+# Enable Readline not waiting for additional input when a key is pressed.
+# Needed for the mappings below.
+#
+set keyseq-timeout 0
