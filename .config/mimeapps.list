@@ -1,0 +1,11 @@
+[Added Associations]
+text/x-csrc=nvim.desktop;
+application/octet-stream=userapp-alacritty -e 'nvim-QA1W30.desktop;nvim.desktop;
+application/rar=org.gnome.FileRoller.desktop;
+text/plain=nvim.desktop;vim.desktop;
+application/xml=nvim.desktop;
+
+[Default Applications]
+inode/directory=ranger.desktop
+application/pdf=zathura.desktop
+audio/mp3=vlc.desktop
