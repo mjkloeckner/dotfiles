@@ -1,12 +1,20 @@
-# Config files from my arch + i3 build
+# Martin's linux configuration files
 
-This folder contains all my config files from my personal computer.
+![screenshot](https://user-images.githubusercontent.com/64109770/137519364-6ff50046-669a-46a1-8d46-f88b4cf7a5cb.png "Arch linux btw xd")
 
-The OS is Arch linux and the window manager is I3-gaps, I don't use
-a login manager, so I have in my zsh a few lines to launch startx on login.
-
-I have auto login on tty1 so I dont have to put my user and passwd everytime I start
-the computer.
-
-Also to not login completly without any password I configured betterlockscreen
-(a fork of i3-lock); to start after startx is executed.
+* **OS**: Artix linux on my main computer, I also have *arch linux btw* intalled on my laptop
+* **WM**: Currently DWM but I used i3wm for a while
+* **SHELL**: Zsh with a couple of plugins, I used to use bash before I discover zsh
+* **Term**: kitty because of the ligature support, I like alacritty also
+* **Editor**: vim for code and sometimes vscode to write latex papers
+* **Login Manager**: autologin on tty1 and starting Xserver from zshrc
+```console
+# Starts the X server only on tty1
+if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
+	startx 2> /dev/null
+logout
+fi
+```
+* **Lockscreen**: i3lock custom [script](https://github.com/klewer-martin/scripts/blob/inspiron/lockscreen)
+* **Notifications**: Dunst is started when X starts and the dunstify to send notifications
+* **Blue light filter**: redshift
