@@ -7,6 +7,7 @@
 * **SHELL**: Zsh with a couple of plugins, I used to use bash before I discover zsh
 * **Term**: kitty because of the ligature support, I like alacritty also
 * **Editor**: vim for code and sometimes vscode to write latex papers
+* **Web Browser**: Mozilla Firefox
 * **Login Manager**: autologin on tty1 and starting Xserver from zshrc
 ```console
 # Starts the X server only on tty1
@@ -16,5 +17,5 @@ logout
 fi
 ```
 * **Lockscreen**: i3lock custom [script](https://github.com/klewer-martin/scripts/blob/inspiron/lockscreen)
-* **Notifications**: Dunst is started when X starts and the dunstify to send notifications
+* **Notifications**: Dunst is started when X starts and dunstify to send notifications
 * **Blue light filter**: redshift
