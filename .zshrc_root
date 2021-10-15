@@ -1,0 +1,138 @@
+#				 _
+#		 _______| |__  _ __ ___
+#		|_  / __| '_ \| '__/ __|
+#		 / /\__ \ | | | | | (__
+#		/___|___/_| |_|_|  \___|
+#								
+# 		by github.com/klewer-martin
+#
+
+HISTFILE=$HOME/.cache/zsh_history
+HISTSIZE=1000000
+SAVEHIST=$HISTSIZE
+ZDOTDIR=$HOME/.config/zsh
+
+# Do not save less pager history file
+LESSHISTFILE=/dev/null
+
+setopt appendhistory
+setopt hist_ignore_all_dups
+setopt INC_APPEND_HISTORY  
+setopt SHARE_HISTORY
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Add plugins (because I don't use a plugin manager)
+source $HOME/.config/zsh/plugged/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.config/zsh/plugged/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/.config/zsh/plugged/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff0000"
+
+# Add my personal scripts folder to path
+PATH="$PATH:$HOME/soydev/scripts:$HOME/soydev/scripts/statusbar:$HOME/.local/bin:$HOME/go/bin"
+
+# Set EDITOR and TERM values
+export EDITOR=/usr/bin/nvim
+
+# export TERM='alacritty'
+export TERM='xterm-256color'
+
+PROMPT_EOL_MARK=''
+
+# vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# Basic auto/tab complete:
+autoload -U compinit
+zstyle ':completion:*' menu select
+zstyle :compinstall filename '/home/mk/.zshrc'
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)		# Include hidden files.
+
+# Use vim keys in tab complete menu:
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+bindkey -v '^?' backward-delete-char
+bindkey '^R' history-incremental-pattern-search-backward
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne "\e[5 q"
+  fi
+}
+zle -N zle-keymap-select
+
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
+# This is for ranger to display previews properly
+set preview_images_method ueberzug
+
+# Load colors and set a colored prompt:
+autoload -U colors && colors
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})$%b%{$reset_color%} "
+PS1="%B%{$fg[red]%}[%n%{$fg[green]%} %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})#%b%{$reset_color%} "
+
+# Edit line in vim with ctrl-e:
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^f' edit-command-line
+
+setopt autocd
+
+# This fix my keybord in terminal; (I use st)
+autoload -Uz up-line-or-beginning-search
+autoload -Uz down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+bindkey '^[[P'    delete-char					# delete 	 delete previous char
+bindkey '^[[3~'   delete-char					# delete 	 delete previous char
+bindkey '^[[H'    beginning-of-line             # home       go to the beginning of line
+bindkey '^[[F'    end-of-line                   # end        go to the end of line
+bindkey '^[[1;5C' forward-word                  # ctrl+right go forward one word
+bindkey '^[[1;5D' backward-word                 # ctrl+left  go backward one word
+bindkey '^H'      backward-kill-word            # ctrl+bs    delete previous word
+bindkey '^[[M'	  kill-word                     # ctrl+del   delete next word
+
+# Source aliases file
+source $HOME/.config/zsh/aliases.sh
+
+# Dynamic window title with zsh shell.
+# Shows current directory and running (multi-line) command.
+case "$TERM" in (rxvt|rxvt-*|st|st-*|*xterm*|(dt|k|E)term)
+    local term_title () { print -n "\e]0;${(j: :q)@}\a" }
+    precmd () {
+      local DIR="$(print -P '%~ #')"
+      term_title "$DIR" "zsh"
+    }
+    preexec () {
+      local DIR="$(print -P '%~ #')"
+      local CMD="${(j:\n:)${(f)1}}"
+      term_title "$DIR" "$CMD"
+    }
+  ;;
+esac
+
+# Enable mouse support for less pager on tmux
+[[ ! -z "$TMUX" ]] && export LESS='--mouse'
