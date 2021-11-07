@@ -1,13 +1,16 @@
 	source	~/.config/vim/autoload/plug.vim
 	call plug#begin('~/.config/vim/plugged')
 	
-	Plug 'flw-cn/vim-nerdtree-l-open-h-close'
+	" Plug 'flw-cn/vim-nerdtree-l-open-h-close'
 	Plug 'christoomey/vim-tmux-navigator'
 	Plug 'justinmk/vim-syntax-extra'
 	Plug 'tpope/vim-commentary'
+	Plug 'tpope/vim-surround'
 	Plug 'jiangmiao/auto-pairs'
 	Plug 'preservim/nerdtree'
 	Plug 'morhetz/gruvbox'
+	Plug 'alvan/vim-closetag'
+	Plug 'hankchiutw/nerdtree-ranger.vim'
 
 	call plug#end()
 
@@ -46,6 +49,7 @@
 	set ttimeoutlen=1
 	set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 	set ttyfast
+	set scrolloff=5
 
 " Keys remap
 	let mapleader = ' '
@@ -72,7 +76,7 @@
 	" Move between windows with Ctrl + hjkl
 	noremap <C-h> <C-w>h
 	noremap <C-j> <C-w>j
-	noremap <C-k> <C-w>k																			
+	noremap <C-k> <C-w>k
 	noremap <C-l> <C-w>l	
 
 	" Change cursor shape with modes
@@ -114,7 +118,7 @@
 	normal! i
 
 	" Set colorscheme and transparent background
-	let g:gruvbox_transparent_bg = '0'
+	let g:gruvbox_transparent_bg = '1'
 	let g:gruvbox_contrast_dark = 'hard'
 	set bg=dark
 
@@ -147,5 +151,3 @@
 
 
 	autocmd! User GoyoLeave call AdaptColorscheme()
-
-	set clipboard=unnamedplus

@@ -15,10 +15,15 @@ ZDOTDIR=$HOME/.config/zsh
 # Do not save less pager history file
 LESSHISTFILE=/dev/null
 
-setopt appendhistory
+# setopt inc_append_history
 setopt hist_ignore_all_dups
-setopt INC_APPEND_HISTORY  
-setopt SHARE_HISTORY
+setopt share_history
+setopt interactivecomments
+setopt autocd
+setopt nohup
+setopt nopromptcr
+setopt correct
+setopt noclobber
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -39,7 +44,7 @@ export EDITOR=/usr/bin/nvim
 # export TERM='alacritty'
 export TERM='xterm-256color'
 
-PROMPT_EOL_MARK=''
+# PROMPT_EOL_MARK=''
 
 # vi mode
 bindkey -v
@@ -91,7 +96,21 @@ set preview_images_method ueberzug
 
 # Load colors and set a colored prompt:
 autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})$%b%{$reset_color%} "
+
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})$%{$reset_color%} "
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})$%b%{$reset_color%} "
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%{$fg[yellow]%}[%j]%{$reset_color%}%(?..%F{red}) $%{$reset_color%} "
+
+# %(condition.ifTrue.ifFalse)
+# %(1j.%j.)
+
+# Shows jobs in background number
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%(1j.%{$fg[yellow]%}[%j].)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
+
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%(1j.%F{011}[%j]%f.)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
+
+# Right prompt
+# RPS1="hola"
 # PS1="%B%{$fg[red]%}[%n%{$fg[green]%} %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})#%b%{$reset_color%} "
 
 # Edit line in vim with ctrl-e:
@@ -99,8 +118,6 @@ autoload edit-command-line; zle -N edit-command-line
 bindkey '^f' edit-command-line
 
 bindkey -s '^e' 'cd "$(dirname "$(fzf)")"\n'
-
-setopt autocd
 
 # This fix my keybord in terminal; (I use st)
 autoload -Uz up-line-or-beginning-search
@@ -147,3 +164,5 @@ fi
 
 # Default arguments for fzf
 export FZF_DEFAULT_OPTS='--height=8 --layout=reverse --border=sharp'
+
+pfetch
