@@ -1,6 +1,6 @@
 # Martin's linux configuration files
 
-![18-55-27_29-03-2022_scrot](https://user-images.githubusercontent.com/64109770/160713617-4e0bd90c-f65a-4332-a96c-7f7a83dcaafc.png)
+![19-01-29_29-03-2022_scrot](https://user-images.githubusercontent.com/64109770/160714332-1b39be8e-b5c0-4c06-9774-413711f8758a.png)
 
 * **OS**: Artix linux on my main computer, I also have *arch linux btw* intalled on my laptop
 * **WM**: Currently DWM but I used i3wm for a while
