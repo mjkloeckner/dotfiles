@@ -1,6 +1,6 @@
 # Martin's linux configuration files
 
-![screenshot](https://user-images.githubusercontent.com/64109770/137519364-6ff50046-669a-46a1-8d46-f88b4cf7a5cb.png "Arch linux btw xd")
+![18-55-27_29-03-2022_scrot](https://user-images.githubusercontent.com/64109770/160713617-4e0bd90c-f65a-4332-a96c-7f7a83dcaafc.png)
 
 * **OS**: Artix linux on my main computer, I also have *arch linux btw* intalled on my laptop
 * **WM**: Currently DWM but I used i3wm for a while
