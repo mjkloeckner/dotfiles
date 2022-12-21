@@ -2,6 +2,7 @@
 
 ![19-01-29_29-03-2022_scrot](https://user-images.githubusercontent.com/64109770/160714332-1b39be8e-b5c0-4c06-9774-413711f8758a.png)
 
+## Applications that I use
 * **OS**: Artix linux on my main computer, I also have *arch linux btw* intalled on my laptop
 * **WM**: Currently DWM but I used i3wm for a while
 * **SHELL**: Zsh with a couple of plugins, I used to use bash before I discover zsh
