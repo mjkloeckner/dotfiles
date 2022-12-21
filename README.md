@@ -14,7 +14,7 @@ debugging [6502 emulator](https://github.com/mjkloeckner/6502)
 - **SHELL**: Zsh 
 - **Font**: [Victor Mono Regular](https://rubjo.github.io/victor-mono/)
 - **Term**: kitty because of the ligature support, I also use suckless's simple
-- terminal (st) too on my laptop
+  terminal (st) too on my laptop
 - **Editor**: vim (neovim)
 - **Web Browser**: Firefox
 - **Login Manager**: autologin on tty1 and starting Xserver from zshrc
