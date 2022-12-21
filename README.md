@@ -1,14 +1,21 @@
 # Martin's linux configuration files
 
-![19-01-29_29-03-2022_scrot](https://user-images.githubusercontent.com/64109770/160714332-1b39be8e-b5c0-4c06-9774-413711f8758a.png)
+These are my config files. I use linux with suckless's dynamic window manager
+(dwm), it's nothing too fancy, just a nice wallpaper and a black status bar on
+the bottom to show basic information.
+
+To write code generaly I use vim (neovim) and tmux, here is a screenshot
+debugging [6502 emulator](https://github.com/mjkloeckner/6502)
+
+![debugging 6502 emulator](https://user-images.githubusercontent.com/64109770/209008527-a6ea6ca3-8b7d-4e72-a41f-b1ee632bbf73.png)
 
 ## Applications that I use
-* **OS**: Artix linux on my main computer, I also have *arch linux btw* intalled on my laptop
-* **WM**: Currently DWM but I used i3wm for a while
-* **SHELL**: Zsh with a couple of plugins, I used to use bash before I discover zsh
-* **Term**: kitty because of the ligature support, I like alacritty also
-* **Editor**: vim for code and sometimes vscode to write latex papers
-* **Web Browser**: Mozilla Firefox
+* **OS**: Arch linux
+* **SHELL**: Zsh 
+* **Term**: kitty because of the ligature support, I also use suckless's simple
+  terminal (st) too on my laptop
+* **Editor**: vim (neovim)
+* **Web Browser**: Firefox
 * **Login Manager**: autologin on tty1 and starting Xserver from zshrc
 
 ```console
@@ -19,6 +26,7 @@ if [[ -z "$DISPLAY" ]] && [[ $(tty) = /dev/tty1 ]]; then
 fi
 ```
 
-* **Lockscreen**: i3lock custom [script](https://github.com/klewer-martin/scripts/blob/inspiron/lockscreen)
-* **Notifications**: Dunst is started when X starts and dunstify to send notifications
+* **Lockscreen**: i3lock custom
+  [script](https://github.com/klewer-martin/scripts/blob/inspiron/lockscreen)
+* **Notifications**: Dunst 
 * **Blue light filter**: redshift
