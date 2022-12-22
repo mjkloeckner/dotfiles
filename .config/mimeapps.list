@@ -1,11 +1,30 @@
 [Added Associations]
-text/x-csrc=nvim.desktop;
-application/octet-stream=userapp-alacritty -e 'nvim-QA1W30.desktop;nvim.desktop;
-application/rar=org.gnome.FileRoller.desktop;
-text/plain=nvim.desktop;vim.desktop;
-application/xml=nvim.desktop;
+application/x-shellscript=nvim.desktop;
+image/png=nsxiv-rifle.desktop;
+text/html=nvim.desktop;vim.desktop;firefox.desktop;google-chrome.desktop;wine-extension-htm.desktop;calibre-ebook-edit.desktop;org.qutebrowser.qutebrowser.desktop;libreoffice-writer.desktop;emacs.desktop;extract.desktop;code-oss.desktop;wine-extension-ini.desktop;emacsclient.desktop;wine-extension-txt.desktop;
+text/plain=nvim.desktop;vim.desktop;libreoffice-writer.desktop;emacs.desktop;extract.desktop;code-oss.desktop;wine-extension-ini.desktop;emacsclient.desktop;wine-extension-txt.desktop;
+text/x-csrc=nvim.desktop;vim.desktop;userapp-kitty -e 'nvim-LW8240.desktop;libreoffice-writer.desktop;wine-extension-txt.desktop;emacsclient.desktop;extract.desktop;wine-extension-ini.desktop;code-oss.desktop;emacs.desktop;
+video/mp4=mpv.desktop;vlc.desktop;
+video/x-matroska=mpv.desktop;vlc.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-55EXJ1.desktop;
 
 [Default Applications]
-inode/directory=ranger.desktop
+/text/html=/usr/share/applications/firefox.desktop
 application/pdf=zathura.desktop
-audio/mp3=vlc.desktop
+application/x-shellscript=nvim.desktop;
+image/gif=sxiv.desktop
+image/jpeg=sxiv.desktop
+image/jpg=/usr/share/applications/sxiv.desktop
+image/png=nsxiv-rifle.desktop;
+image/tiff=sxiv.desktop
+image/webp=sxiv.desktop
+inode/directory=org.kde.dolphin.desktop;
+text/html=nvim.desktop;
+text/plain=nvim.desktop;
+text/x-c=/usr/share/applications/nvim.desktop
+text/x-csrc=nvim.desktop;
+video/mp4=mpv.desktop;
+video/x-matroska=mpv.desktop;
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-55EXJ1.desktop

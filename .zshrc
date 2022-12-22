@@ -3,7 +3,7 @@
 #		|_  / __| '_ \| '__/ __|
 #		 / /\__ \ | | | | | (__
 #		/___|___/_| |_|_|  \___|
-#								
+#
 # 		by github.com/klewer-martin
 #
 
@@ -15,40 +15,65 @@ ZDOTDIR=$HOME/.config/zsh
 # Do not save less pager history file
 LESSHISTFILE=/dev/null
 
-# setopt inc_append_history
+setopt inc_append_history
 setopt hist_ignore_all_dups
 setopt share_history
 setopt interactivecomments
 setopt autocd
 setopt nohup
-setopt nopromptcr
+# setopt nopromptcr
 setopt correct
 setopt noclobber
+setopt nolistambiguous
+setopt extended_glob
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 # Add plugins (because I don't use a plugin manager)
 source $HOME/.config/zsh/plugged/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/.config/zsh/plugged/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+unset ZSH_AUTOSUGGEST_USE_ASYNCS
+# bindkey '^ ' autosuggest-fetch
+bindkey '^n' autosuggest-accept
+
 source $HOME/.config/zsh/plugged/zsh-history-substring-search/zsh-history-substring-search.zsh
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff0000"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#ff0000'
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
+# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=6
+# source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # Add my personal scripts folder to path
-PATH="$PATH:$HOME/soydev/scripts:$HOME/soydev/scripts/statusbar:$HOME/.local/bin:$HOME/go/bin"
+PATH="$PATH:$HOME/soydev/scripts:$HOME/soydev/scripts/statusbar:$HOME/.local/bin:$HOME/go/bin:/usr/local/go/bin"
 
-# Set EDITOR and TERM values
+# Set enviroment variables
 export EDITOR=/usr/bin/nvim
-
-# export TERM='alacritty'
+export BROWSER=/usr/bin/firefox
 export TERM='xterm-256color'
+export LC_TIME="es_AR.UTF-8" # dd/mm/yy time format
 
 # PROMPT_EOL_MARK=''
 
 # vi mode
 bindkey -v
 export KEYTIMEOUT=1
+
+bindkey -M emacs '^?' backward-kill-word
+bindkey -M viins '^?' backward-kill-word
+bindkey -M vicmd '^?' backward-kill-word
+
+bindkey -M emacs '^[[3;5~' kill-word
+bindkey -M viins '^[[3;5~' kill-word
+bindkey -M vicmd '^[[3;5~' kill-word
+
+# yank to the system clipboard
+function vi-yank-xclip {
+    zle vi-yank
+   echo "$CUTBUFFER" | xclip -i
+}
+
+zle -N vi-yank-xclip
+bindkey -M vicmd 'y' vi-yank-xclip
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -65,7 +90,15 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 
 bindkey -v '^?' backward-delete-char
-bindkey '^R' history-incremental-pattern-search-backward
+# bindkey '^R' history-incremental-pattern-search-backward
+#
+# Search backwards and forwards with a pattern
+bindkey -M vicmd '/' history-incremental-pattern-search-backward
+bindkey -M vicmd '?' history-incremental-pattern-search-forward
+
+# set up for insert mode too
+bindkey -M viins '^R' history-incremental-pattern-search-backward
+bindkey -M viins '^F' history-incremental-pattern-search-forward
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select {
@@ -107,7 +140,8 @@ autoload -U colors && colors
 # Shows jobs in background number
 # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%(1j.%{$fg[yellow]%}[%j].)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
 
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%(1j.%F{011}[%j]%f.)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
+PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%(1j.%F{011}(%j)%f.)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
+# PS1="%B%{$fg[yellow]%} %n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~ %(1j.%F{011}[%j]%f.)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
 
 # Right prompt
 # RPS1="hola"
@@ -115,9 +149,9 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cya
 
 # Edit line in vim with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
-bindkey '^f' edit-command-line
+bindkey '^e' edit-command-line
 
-bindkey -s '^e' 'cd "$(dirname "$(fzf)")"\n'
+# bindkey -s '^e' 'cd "$(dirname "$(fzf)")"\n'
 
 # This fix my keybord in terminal; (I use st)
 autoload -Uz up-line-or-beginning-search
@@ -165,4 +199,28 @@ fi
 # Default arguments for fzf
 export FZF_DEFAULT_OPTS='--height=8 --layout=reverse --border=sharp'
 
+
+. /home/mk/mouse.zsh
+
+# M for vi (cmd) mode
+bindkey -M vicmd M zle-toggle-mouse
+
+# zstyle ':completion:*' menu select script /usr/local/etc/bash_completion.d/git-completion.bash
+
+# unambigandmenu() {
+#     zle expand-or-complete
+#     zle magic-space
+#     zle backward-delete-char
+#     zle expand-or-complete
+# }
+# zle -N unambigandmenu
+
+# zstyle -e ':completion:*' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==03=01}:${(s.:.)LS_COLORS}")'
+# zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=00}:${(s.:.)LS_COLORS}")';
 pfetch
+
+source $HOME/.config/zsh/plugged/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff0000'
+# ZSH_HIGHLIGHT_STYLES[comment]='fg=grey,bold'
+ZSH_HIGHLIGHT_STYLES[comment]='fg=#707070,bold'
+
