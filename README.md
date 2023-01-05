@@ -51,19 +51,19 @@ Starting from a vanilla arch linux installation you will need, first Xorg server
 and some basic fonts
 
 ```
-pacman -S xorg xorg-server xorg-xinit ttf-dejavu ttf-joypixels
+# pacman -S xorg xorg-server xorg-xinit ttf-dejavu ttf-joypixels
 ```
 
 also make sure to install your graphics card drivers as well as common graphics
 libraries, in the case of integrated intel hd graphics:
 
 ```
-pacman -S xf86-video-intel mesa mesa-utils
+# pacman -S xf86-video-intel mesa mesa-utils
 ```
 
 ### System
 ```
-pacman -S zsh dash base-devel ssh git openssh xss-lock xbindkeys xcape dunst \
+# pacman -S zsh dash base-devel ssh git openssh xss-lock xbindkeys xcape dunst \
 man-db man-pages
 ```
 
@@ -76,17 +76,17 @@ then it should be sourced automatically from the .zshrc file
 ##### [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
 
 ```
-git clone https://github.com/zsh-users/zsh-autosuggestions \
+$ git clone https://github.com/zsh-users/zsh-autosuggestions \
 	~/.config/zsh/plugged/zsh-autosuggestions
 ```
 ##### [zsh-history-substring-search](https://github.com/zsh-users/zsh-history-substring-search)
 ```
-git clone https://github.com/zsh-users/zsh-history-substring-search \
+$ git clone https://github.com/zsh-users/zsh-history-substring-search \
 	~/.config/zsh/plugged/zsh-history-substring-search
 ```
 ##### [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 ```
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 	~/.config/zsh/plugged/zsh-syntax-highlighting
 ```
 
@@ -95,7 +95,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 These are some packages from the offical repos that I use
 
 ```
-pacman -S neovim tmux kitty firefox dolphin dolphin-plugins gvfs gvfs-mtp \
+# pacman -S neovim tmux kitty firefox dolphin dolphin-plugins gvfs gvfs-mtp \
 gvfs-smb kio kio-extras kio-fuse adwaita-qt5 zathura zathura-pdf-mupdf \
 zathura-pdf-djvu mpv xclip gnome-calculator redshift lxappearance qt5ct \
 nitrogen feh translate-shell ueberzug scrot udisks2 gtk2 gtk3
@@ -106,5 +106,5 @@ These are packages from the AUR (make sure you have an [AUR
 helper](https://wiki.archlinux.org/title/AUR_helpers) installed)
 
 ```
-yay -S betterlockscreen nerd-fonts-jetbrains-mono picom-jonaburg-git gitmux
+$ yay -S betterlockscreen nerd-fonts-jetbrains-mono picom-jonaburg-git gitmux
 ```
