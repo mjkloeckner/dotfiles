@@ -44,7 +44,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#ff0000'
 # source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # Add my personal scripts folder to path
-PATH="$PATH:$HOME/soydev/scripts:$HOME/soydev/scripts/statusbar:$HOME/.local/bin:$HOME/go/bin:/usr/local/go/bin"
+PATH="$PATH:$HOME/.local/bin/statusbar:$HOME/.local/bin/statusbar/buttons:$HOME/.local/bin:$HOME/go/bin:/usr/local/go/bin"
 
 # Set enviroment variables
 export EDITOR=/usr/bin/nvim
@@ -69,7 +69,7 @@ bindkey -M vicmd '^[[3;5~' kill-word
 # yank to the system clipboard
 function vi-yank-xclip {
     zle vi-yank
-   echo "$CUTBUFFER" | xclip -i
+   echo "$CUTBUFFER" | xclip -selection clipboard
 }
 
 zle -N vi-yank-xclip
@@ -78,7 +78,7 @@ bindkey -M vicmd 'y' vi-yank-xclip
 # Basic auto/tab complete:
 autoload -U compinit
 zstyle ':completion:*' menu select
-zstyle :compinstall filename '/home/mk/.zshrc'
+zstyle :compinstall filename '$HOME/.zshrc'
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
@@ -194,13 +194,13 @@ logout
 fi
 
 # Enable mouse support for less pager on tmux
-[[ ! -z "$TMUX" ]] && export LESS='--mouse'
+[[ ! -z "$TMUX" ]] && export LESS='--mouse -Rf'
 
 # Default arguments for fzf
 export FZF_DEFAULT_OPTS='--height=8 --layout=reverse --border=sharp'
 
 
-. /home/mk/mouse.zsh
+# . $HOME/mouse.zsh
 
 # M for vi (cmd) mode
 bindkey -M vicmd M zle-toggle-mouse
