@@ -13,6 +13,7 @@ debugging [6502 emulator](https://github.com/mjkloeckner/6502)
 As a lockscreen I use a
 [script](https://github.com/klewer-martin/scripts/blob/inspiron/lockscreen)
 (wrapper of i3lock) that I made to mimic the lockscreen of Win 11:
+
 ![19-33-17_31-03-2023_scrot](https://user-images.githubusercontent.com/64109770/229302305-dd156763-aa02-4a6b-9b40-58cd54cbd1e1.png)
 
 
