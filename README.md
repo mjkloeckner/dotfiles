@@ -9,6 +9,10 @@ debugging [6502 emulator](https://github.com/mjkloeckner/6502)
 
 ![debugging 6502 emulator](https://user-images.githubusercontent.com/64109770/209008527-a6ea6ca3-8b7d-4e72-a41f-b1ee632bbf73.png)
 
+## Lockscreen
+![19-33-17_31-03-2023_scrot](https://user-images.githubusercontent.com/64109770/229302305-dd156763-aa02-4a6b-9b40-58cd54cbd1e1.png)
+
+
 ## Applications that I use
 - **OS**: Arch linux
 - **Shell**: Zsh for user, dash linked to /bin/sh
@@ -35,7 +39,6 @@ fi
 ```
 
 - **Lockscreen**: i3lock custom [script](https://github.com/klewer-martin/scripts/blob/inspiron/lockscreen)
-  (wrapper of [betterlockscreen](https://github.com/betterlockscreen/betterlockscreen))
 - **Notifications**: Dunst 
 - **Blue light filter**: redshift
 - **Compositor**: jonaburg's picom fork (adds animations when changing
