@@ -56,6 +56,8 @@
 	set number
 	set relativenumber
 	set cursorline
+	set listchars=tab:\|\ ,trail:-,nbsp:+,space:·
+	set list
 	set mouse=a
 	set undofile
 	set undodir=~/.cache/nvim/undo
@@ -113,7 +115,6 @@
 	map <leader>F :NERDTreeFocus<CR>
 	map <leader>r :NERDTreeFind<CR>
 	map <leader>s :source $HOME/.config/nvim/init.vim<CR>
-
 	map <leader>c :make
 
 	" Disable ex-mode keybinding (type visual thing)
@@ -255,7 +256,7 @@
 	" Highjack nerdtree's highjacking to keep normal nerdtree from loading on directories
 	" let g:NERDTreeHijackNetrw=0
 	" augroup NERDTreeHijackNetrw
-	" autocmd VimEnter * silent! autocmd! FileExplorer
+	"    autocmd VimEnter * silent! autocmd! FileExplorer
 	" augroup END
 
 	" autocmd VimEnter * call CloseExtraNERDTree()
@@ -380,10 +381,36 @@
 		copen
 	endfunction
 
+	function JumpBuffer()
+		let l:prev_buffer = expand("#:t")
+		echohl Question
+		let l:input = split(input("Change buffer: ", l:prev_buffer, "buffer"), ' ')
+		echohl None
+		if empty(l:input)
+			return
+		endif
+		mod
+
+		let l:string = join(l:input, ' ')	
+		echo l:string
+		if bufexists(l:string)
+			exe "b " .. l:string
+		else
+			if filereadable(l:string)
+				exe "e " .. l:string
+			else
+				exe "e " .. l:string
+				mod
+				echo "file doesn't exists: editinig new file `".. l:string .. "`"
+			endif
+		endif
+	endfunction
+
 	nnoremap <Leader>C :call Compile()<CR>
 	nnoremap <Leader>v :call Search()<CR>
 	nnoremap <Leader>m :call SearchMan()<CR>
 	nnoremap <Leader>h :call SearchHelp()<CR>
+	nnoremap <Leader>b :call JumpBuffer()<CR>
 
 	function Text()
 		set nuw=8
@@ -490,3 +517,46 @@
 
 	" delete word in command/prompt mode with Ctrl + Backspace
 	cnoremap <C-H> <C-w>
+
+	let $FZF_DEFAULT_OPTS = ""
+	let g:fzf_layout = {'down':'10'}
+    " let g:fzf_layout = { 'window': { 'width': 1.0, 'height': 0.25, 'relative': v:true, 'yoffset': 1.0 } }
+
+	autocmd! FileType fzf
+    autocmd  FileType fzf set laststatus=0 noshowmode noruler nonumber norelativenumber cmdheight=0
+      \| autocmd BufLeave <buffer> set laststatus=1 showmode ruler number relativenumber cmdheight=1
+
+	" Redundant to NERDTree's implementation to change selected node permissions
+	" https://github.com/preservim/nerdtree/pull/1348
+	function! ChangePermissions()
+		let l:node = expand('%')
+
+		let l:prompt = "Change node permissions: "
+
+		echohl Question
+		let l:newNodePerm = input(l:prompt)
+		echohl None
+		mod
+
+		if empty(l:newNodePerm)
+			return
+		endif
+
+		if !empty(l:node)
+			let l:cmd = 'chmod ' .. newNodePerm .. ' ' .. l:node
+			let l:error = split(system(l:cmd), '\n')
+
+			if !empty(l:error)
+				echo l:error
+			endif
+
+			let l:cmd = 'ls --zero -l ' .. l:node
+			let l:ls_node = system(l:cmd)
+			echo l:ls_node
+			return
+		endif
+
+		echo 'node not recognized'
+	endfunction
+
+	nnoremap <Leader>p :call ChangePermissions()<CR>
