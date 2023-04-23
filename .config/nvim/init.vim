@@ -17,10 +17,13 @@
 	Plug 'flazz/vim-colorschemes'
 	Plug 'flw-cn/vim-nerdtree-l-open-h-close'
 	Plug 'hattya/vcs-info.vim'
-	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 'markdown' }
+	Plug 'iamcco/markdown-preview.nvim',
+				\{ 'do': { -> mkdp#util#install() },
+				\'for': [ 'markdown', 'vim-plug' ]}
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
 	Plug 'junegunn/vim-easy-align'
 	Plug 'justinmk/vim-syntax-extra'
-	Plug 'mbbill/undotree'
 	Plug 'preservim/nerdtree'
 	Plug 'ryanoasis/vim-devicons'
 	Plug 'sainnhe/edge'
@@ -92,7 +95,7 @@
 		let g:gruvbox_contrast_light='hard'
 		colorscheme gruvbox
 		call AdaptColorscheme()
-		" hi CursorLine cterm=NONE ctermbg=bg5
+		hi ColorColumn ctermbg=254
 	endfunction
 
 	hi TrailingWhitespace ctermbg=yellow guibg=yellow
@@ -100,7 +103,7 @@
 
 	if filereadable('/home/mk/.config/scheme/light')
 		call LightTheme()
-	elseif filereadable('/home/mk/.config/scheme/dark')
+	else
 		call DarkTheme()
 	endif
 
@@ -109,8 +112,9 @@
 	map <leader>f :NERDTreeToggle<CR>
 	map <leader>F :NERDTreeFocus<CR>
 	map <leader>r :NERDTreeFind<CR>
-
 	map <leader>s :source $HOME/.config/nvim/init.vim<CR>
+
+	map <leader>c :make
 
 	" Disable ex-mode keybinding (type visual thing)
 	map Q <NOP>
@@ -154,6 +158,10 @@
 	noremap <leader>8 8gt
 	noremap <leader>9 9gt
 	noremap <leader>0 :tablast<cr>
+
+	" Scroll half page with PageUp/PageDown
+	nnoremap <PageUp> <C-u>
+	nnoremap <PageDown> <C-d>
 
 	" Start interactive EasyAlign in visual mode (e.g. vipga)
 	xmap ga <Plug>(EasyAlign)
@@ -263,10 +271,6 @@
 	"   bd
 	"   endif
 	" endfunction
-
-	" Start NERDTree when Vim is started without file arguments.
-	" autocmd StdinReadPre * let s:std_in=1
-	" autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | only | endif
 
 	function VerboseMark()
 		echo ''
@@ -382,6 +386,7 @@
 	nnoremap <Leader>h :call SearchHelp()<CR>
 
 	function Text()
+		set nuw=8
 		set tw=80
 		set colorcolumn=80
 		set spelllang=es
@@ -391,6 +396,11 @@
 
 	nnoremap <Leader>t :call Text()<CR>
 	nnoremap m :call VerboseMark()<CR>
+
+	au TextYankPost * silent! lua vim.highlight.on_yank()
+	let g:python_highlight_all = 1
+
+	autocmd ColorScheme gruvbox call AdaptColorscheme()
 
 	" close if quickfix is the last window
 	au BufEnter * call MyLastWindow()
@@ -404,6 +414,19 @@
 	  endif
 	endfunction
 
+	let g:MyAutoSaveVar=0
+	function MyAutoSave()
+		if g:MyAutoSaveVar == 1
+			let g:MyAutoSaveVar=0
+			if &modified
+				write
+			endif
+		endif
+	endfunction
+
+	au TextChanged,TextChangedI *.md let g:MyAutoSaveVar=1
+	au CursorHold,CursorHoldI *.md call MyAutoSave()
+
 	" Switch to last-active tab
 	if !exists('g:Lasttab')
 		let g:Lasttab = 1
@@ -413,8 +436,57 @@
 	autocmd! TabClosed * let g:Lasttab = g:Lasttab_backup
 	nmap <silent> <Leader>; :exe "tabn " . g:Lasttab<cr>
 
-	au TextYankPost * silent! lua vim.highlight.on_yank()
-	let g:python_highlight_all = 1
+	" Markdown mode
+	function MarkdownMode()
+		function! GeneratePDF()
+			mod
+			let l:filename = expand("%:r")
+			let l:md_filename = l:filename .. ".md"
+			let l:pdf_filename = l:filename .. ".pdf"
+
+			if filereadable(l:md_filename)
+				let l:pdf_generate_cmd = "!md2pdf " .. l:md_filename
+				mod
+				exe l:pdf_generate_cmd
+			else
+				mod
+				echohl WarningMsg
+				echo "File `" .. l:md_filename .. "` not found in CWD"
+				echohl None
+			endif
+		endfunction
+
+		" requires neovim-remote to clear command line
+		function! OpenPDF()
+			let l:filename = expand("%:r")
+			let l:pdf_filename = l:filename .. ".pdf"
+			let l:server_name = v:servername
+
+			" Check if pdf exists
+			if filereadable(l:pdf_filename)
+				let l:open_pdf_cmd = "!xdg-open " .. l:pdf_filename .. " &"
+				let l:clean_cmd = "!{sleep 10 && nvr -s --nostart --servername "
+							\ .. v:servername .. " --remote-send '<Rsc>:mod<CR>'} &"
+				silent exe l:open_pdf_cmd
+				silent exe l:clean_cmd
+				mod
+				echohl Question
+				echo "Opening `" .. l:pdf_filename .. "`"
+				echohl None
+			else
+				echohl WarningMsg
+				echo "File `" .. l:pdf_filename .. "` not found in CWD"
+				echohl None
+			endif
+		endfunction
+
+		nnoremap <buffer> <F9> :MarkdownPreviewToggle<CR>
+		nnoremap <buffer> <F11> :call GeneratePDF()<CR>
+		nnoremap <buffer> <F12> :call OpenPDF()<CR>
+	endfunction
+
+	au FileType markdown, call MarkdownMode()
+	au CursorHold,CursorHoldI * mod
 
 	" delete word in command/prompt mode with Ctrl + Backspace
 	cnoremap <C-H> <C-w>
