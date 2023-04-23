@@ -40,8 +40,6 @@ source $HOME/.config/zsh/plugged/zsh-history-substring-search/zsh-history-substr
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#ff0000'
 # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
-# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=6
-# source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 # Add my personal scripts folder to path
 PATH="$PATH:$HOME/.local/bin/statusbar:$HOME/.local/bin/statusbar/buttons:$HOME/.local/bin:$HOME/go/bin:/usr/local/go/bin"
@@ -91,7 +89,7 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 
 bindkey -v '^?' backward-delete-char
 # bindkey '^R' history-incremental-pattern-search-backward
-#
+
 # Search backwards and forwards with a pattern
 bindkey -M vicmd '/' history-incremental-pattern-search-backward
 bindkey -M vicmd '?' history-incremental-pattern-search-forward
@@ -121,7 +119,6 @@ zle-line-init() {
 zle -N zle-line-init
 
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
-
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 # This is for ranger to display previews properly
@@ -130,27 +127,15 @@ set preview_images_method ueberzug
 # Load colors and set a colored prompt:
 autoload -U colors && colors
 
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})$%{$reset_color%} "
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})$%b%{$reset_color%} "
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%{$fg[yellow]%}[%j]%{$reset_color%}%(?..%F{red}) $%{$reset_color%} "
-
-# %(condition.ifTrue.ifFalse)
-# %(1j.%j.)
-
 # Shows jobs in background number
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%(1j.%{$fg[yellow]%}[%j].)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
-
 PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~%{$fg[red]%}]%(1j.%F{011}(%j)%f.)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
-# PS1="%B%{$fg[yellow]%} %n%{$fg[green]%}@%{$fg[magenta]%}%M %{$fg[cyan]%}%1~ %(1j.%F{011}[%j]%f.)%{$reset_color%}%(?..%{$fg[red]%})$%{$reset_color%} "
 
 # Right prompt
 # RPS1="hola"
-# PS1="%B%{$fg[red]%}[%n%{$fg[green]%} %{$fg[cyan]%}%1~%{$fg[red]%}]%{$reset_color%}%(?..%F{red})#%b%{$reset_color%} "
 
 # Edit line in vim with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
-
 # bindkey -s '^e' 'cd "$(dirname "$(fzf)")"\n'
 
 # This fix my keybord in terminal; (I use st)
@@ -198,7 +183,6 @@ fi
 
 # Default arguments for fzf
 export FZF_DEFAULT_OPTS='--height=8 --layout=reverse --border=sharp'
-
 
 # . $HOME/mouse.zsh
 
