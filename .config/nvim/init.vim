@@ -1,15 +1,15 @@
 "                              _
-"		 _ __   ___  _____   _(_)_ __ ___
-"		| '_ \ / _ \/ _ \ \ / / | '_ ` _ \
-"		| | | |  __/ (_) \ V /| | | | | | |
-"		|_| |_|\___|\___/ \_/ |_|_| |_| |_|
+"        _ __   ___  _____   _(_)_ __ ___
+"       | '_ \ / _ \/ _ \ \ / / | '_ ` _ \
+"       | | | |  __/ (_) \ V /| | | | | | |
+"       |_| |_|\___|\___/ \_/ |_|_| |_| |_|
 "
-"		by github.com/mjkloeckner
+"       by github.com/mjkloeckner
 
 " Plugins call
 	call plug#begin('~/.config/nvim/plugged')
 
-	Plug 'PhilRunninger/nerdtree-visual-selection'
+	Plug 'jiangmiao/auto-pairs'
 	Plug 'alvan/vim-closetag'
 	Plug 'ayosec/hltermpaste.vim'
 	Plug 'chrisbra/Colorizer'
@@ -35,10 +35,16 @@
 	Plug 'tpope/vim-fugitive'
 	Plug 'vim-python/python-syntax'
 
+	Plug 'mjkloeckner/autosave.vim'
+
 	call plug#end()
 
 " Basic settings
 	syntax on
+	set title
+	" remove the `NVIM` ending from the title
+	" (see https://neovim.io/doc/user/options.html#'titlestring')
+	set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:~:.:h\")})%)%(\ %a%)
 	set encoding=utf-8
 	scriptencoding utf-8
 	set fileencoding=utf-8
@@ -65,7 +71,8 @@
 	set backupdir=~/.cache/nvim/backup
 	set clipboard=unnamedplus
 
-	" Enable blinking together with different cursor shapes for insert/command mode, and cursor highlighting:
+	" Enable blinking together with different cursor shapes for
+	" insert/command mode, and cursor highlighting:
 	set guicursor=n-v:block,i-ci-ve-c:ver25,r-cr:hor20,o:hor50
 	\,a:blinkwait700-blinkoff4000-blinkon2500-Cursor/lCursor
 	\,sm:block-blinkwait175-blinkoff150-blinkon175
@@ -75,6 +82,7 @@
 		hi Normal guibg=NONE ctermbg=NONE
 		hi LineNr guibg=NONE ctermbg=NONE
 		hi Folded guibg=NONE ctermbg=NONE
+		hi FoldColumn ctermbg=NONE
 		hi EndOfBuffer guibg=NONE ctermbg=NONE ctermfg=12
 		hi SpecialKey guibg=NONE ctermbg=NONE
 		hi VertSplit guibg=NONE ctermbg=NONE
@@ -82,6 +90,14 @@
 		hi TabLineSel ctermfg=LightGreen ctermbg=NONE
 		hi TabLineFill ctermfg=Gray ctermbg=NONE
 		hi Title ctermfg=LightBlue ctermbg=NONE
+		hi MatchParen ctermfg=234 ctermbg=208
+
+		if &bg == 'light'
+			hi ColorColumn ctermbg=254
+		else
+			hi ColorColumn ctermbg=240
+			hi CursorLine ctermbg=240
+		endif
 	endfunction
 
 	function! DarkTheme()
@@ -89,7 +105,6 @@
 		let g:gruvbox_contrast_dark='hard'
 		colorscheme gruvbox
 		call AdaptColorscheme()
-		hi CursorLine cterm=NONE ctermbg=235
 	endfunction
 
 	function! LightTheme()
@@ -97,7 +112,6 @@
 		let g:gruvbox_contrast_light='hard'
 		colorscheme gruvbox
 		call AdaptColorscheme()
-		hi ColorColumn ctermbg=254
 	endfunction
 
 	hi TrailingWhitespace ctermbg=yellow guibg=yellow
@@ -108,6 +122,17 @@
 	else
 		call DarkTheme()
 	endif
+
+	function ToggleTheme()
+		if &bg == 'dark'
+			call LightTheme()
+		else
+			call DarkTheme()
+		endif
+	endfunction
+
+	nnoremap <silent> <F12> :call ToggleTheme()<CR>
+
 
 " Key remaps
 	let mapleader =' '
@@ -178,45 +203,45 @@
 	"   s  spaces before a tab
 	"   t  tabs not at start of line
 	function! ShowWhitespace(flags)
-	  let bad = ''
-	  let pat = []
-	  for c in split(a:flags, '\zs')
-		if c == 'e'
-		  call add(pat, '\s\+$')
-		elseif c == 'i'
-		  call add(pat, '^\t*\zs \+')
-		elseif c == 's'
-		  call add(pat, ' \+\ze\t')
-		elseif c == 't'
-		  call add(pat, '[^\t]\zs\t\+')
+		let bad = ''
+		let pat = []
+		for c in split(a:flags, '\zs')
+			if c == 'e'
+				call add(pat, '\s\+$')
+			elseif c == 'i'
+				call add(pat, '^\t*\zs \+')
+			elseif c == 's'
+				call add(pat, ' \+\ze\t')
+			elseif c == 't'
+				call add(pat, '[^\t]\zs\t\+')
+			else
+				let bad .= c
+			endif
+		endfor
+		if len(pat) > 0
+			let s = join(pat, '\|')
+			exec 'syntax match ExtraWhitespace "'.s.'" containedin=ALL'
 		else
-		  let bad .= c
+			syntax clear ExtraWhitespace
 		endif
-	  endfor
-	  if len(pat) > 0
-		let s = join(pat, '\|')
-		exec 'syntax match ExtraWhitespace "'.s.'" containedin=ALL'
-	  else
-		syntax clear ExtraWhitespace
-	  endif
-	  if len(bad) > 0
-		echo 'ShowWhitespace ignored: '.bad
-	  endif
+		if len(bad) > 0
+			echo 'ShowWhitespace ignored: '.bad
+		endif
 	endfunction
 
 	function! ToggleShowWhitespace()
-	  if !exists('b:ws_show')
-		let b:ws_show = 0
-	  endif
-	  if !exists('b:ws_flags')
-		let b:ws_flags = 'est'  " default (which whitespace to show)
-	  endif
-	  let b:ws_show = !b:ws_show
-	  if b:ws_show
-		call ShowWhitespace(b:ws_flags)
-	  else
-		call ShowWhitespace('')
-	  endif
+		if !exists('b:ws_show')
+			let b:ws_show = 0
+		endif
+		if !exists('b:ws_flags')
+			let b:ws_flags = 'est'  " default (which whitespace to show)
+		endif
+		let b:ws_show = !b:ws_show
+		if b:ws_show
+			call ShowWhitespace(b:ws_flags)
+		else
+			call ShowWhitespace('')
+		endif
 	endfunction
 
 	nnoremap <Leader>ws :call ToggleShowWhitespace()<CR>
@@ -277,8 +302,8 @@
 		echo ''
 		let c = getchar()
 		if ((c >= 0x41) && (c <= 0x5A)) || ((c >= 0x61) && (c <= 0x7A))
-			exe "mark" nr2char(c)
-			echon "Created mark at key '" nr2char(c) "' in line " line(".")
+			normal! m nr2char(c)
+			echon "mark `" nr2char(c) "`: line " line(".")  ", col " col(".")
 		else
 			return
 		endif
@@ -286,7 +311,7 @@
 
 	let g:asyncrun_open = 12
 
-	" Pressing Ctrl-C when input prompt breaks highlight
+	" Pressing Ctrl-C during command mode breaks highlight
 	cnoremap <C-c> <Esc>
 
 	" Oposite of <Shift-k>
@@ -321,6 +346,7 @@
 
 	" autocmd BufEnter *.txt if &filetype == 'help' | wincmd T | endif
 	function SearchHelp()
+		mod
 		echohl Question
 		let l:input = substitute(input("Search vim help: ", "", "help"), "\\\'\\\|\\\"", '', 'g')
 		echohl None
@@ -330,14 +356,17 @@
 			return
 		endif
 
-		let l:error = execute('silent help ' .. l:input)
+		let v:errmsg = ""
+		let l:cmd = "help " .. l:input
+		silent! execute(l:cmd)
 
-		if !empty(l:error)
+		if matchstr(v:errmsg, "no help") != ""
 			echohl WarningMsg
-			echon "No help found for: '" .. l:input "'."
+			mod
+			echo "Sorry, no help for: `" .. l:input .. "`"
 			echohl None
 		else
-			exe "wincmd T | set relativenumber"
+			exe "wincmd T | mod | set nornu"
 		endif
 	endfunction
 
@@ -361,6 +390,7 @@
 			exe "wincmd T | set relativenumber"
 		else
 			echohl WarningMsg
+			mod
 			echon l:input .. ": nothing appropriate."
 			echohl None
 		endif
@@ -391,7 +421,7 @@
 		endif
 		mod
 
-		let l:string = join(l:input, ' ')	
+		let l:string = join(l:input, ' ')
 		echo l:string
 		if bufexists(l:string)
 			exe "b " .. l:string
@@ -413,15 +443,38 @@
 	nnoremap <Leader>b :call JumpBuffer()<CR>
 
 	function Text()
-		set nuw=8
+		if winwidth('%') > 86
+			set nuw=8
+		endif
 		set tw=80
 		set colorcolumn=80
-		set spelllang=es
+		set spelllang=es,en
+		set spell
+	endfunction
+
+	let g:TextMode = 0
+	function ToggleText()
+		if g:TextMode == 0
+			let g:TextMode = 1
+			call Text()
+		else
+			let g:TextMode = 0
+			set nuw=4
+			set tw=0
+			set colorcolumn=0
+			set nospell
+		endif
 	endfunction
 
 	let g:mkdp_browser = 'qutebrowser'
 
-	nnoremap <Leader>t :call Text()<CR>
+	" make MarkdownPreview's tableofcontents pattern same as latex (for use
+	" with pandoc)
+	let g:mkdp_preview_options = {
+		\ 'toc': { 'placeholder': '\\tableofcontents' }
+		\ }
+
+	nnoremap <silent> <Leader>T :call ToggleText()<CR>
 	nnoremap m :call VerboseMark()<CR>
 
 	au TextYankPost * silent! lua vim.highlight.on_yank()
@@ -441,18 +494,12 @@
 	  endif
 	endfunction
 
-	let g:MyAutoSaveVar=0
-	function MyAutoSave()
-		if g:MyAutoSaveVar == 1
-			let g:MyAutoSaveVar=0
-			if &modified
-				write
-			endif
-		endif
-	endfunction
+	" enable auto_save for only these filetypes, to see all posible ifletypes
+	" see: https://vi.stackexchange.com/questions/5780/list-known-filetypes
+	let g:auto_save_file_types = [ 'markdown' ]
 
-	au TextChanged,TextChangedI *.md let g:MyAutoSaveVar=1
-	au CursorHold,CursorHoldI *.md call MyAutoSave()
+	" enable auto_save for all filetypes
+	let g:auto_save_all_filetypes = 0
 
 	" Switch to last-active tab
 	if !exists('g:Lasttab')
@@ -465,6 +512,7 @@
 
 	" Markdown mode
 	function MarkdownMode()
+		so ~/.config/nvim/md-toc.vim
 		function! GeneratePDF()
 			mod
 			let l:filename = expand("%:r")
@@ -474,7 +522,8 @@
 			if filereadable(l:md_filename)
 				let l:pdf_generate_cmd = "!md2pdf " .. l:md_filename
 				mod
-				exe l:pdf_generate_cmd
+				" exe l:pdf_generate_cmd
+				exe "AsyncRun -mode=term -pos=bottom -rows=3 " .. l:pdf_generate_cmd
 			else
 				mod
 				echohl WarningMsg
@@ -492,13 +541,10 @@
 			" Check if pdf exists
 			if filereadable(l:pdf_filename)
 				let l:open_pdf_cmd = "!xdg-open " .. l:pdf_filename .. " &"
-				let l:clean_cmd = "!{sleep 10 && nvr -s --nostart --servername "
-							\ .. v:servername .. " --remote-send '<Rsc>:mod<CR>'} &"
 				silent exe l:open_pdf_cmd
-				silent exe l:clean_cmd
 				mod
 				echohl Question
-				echo "Opening `" .. l:pdf_filename .. "`"
+				echon "Opening `" .. l:pdf_filename .. "`"
 				echohl None
 			else
 				echohl WarningMsg
@@ -510,13 +556,18 @@
 		nnoremap <buffer> <F9> :MarkdownPreviewToggle<CR>
 		nnoremap <buffer> <F11> :call GeneratePDF()<CR>
 		nnoremap <buffer> <F12> :call OpenPDF()<CR>
+
+		" do not treat underscore as errors in certain contexts
+		" https://github.com/tpope/vim-markdown/issues/21
+		hi link markdownError NONE
 	endfunction
 
-	au FileType markdown, call MarkdownMode()
-	au CursorHold,CursorHoldI * mod
+	au FileType markdown silent! call MarkdownMode()
+	" au CursorHold,CursorHoldI * mod
 
 	" delete word in command/prompt mode with Ctrl + Backspace
 	cnoremap <C-H> <C-w>
+	cnoremap <C-BS> <C-H>
 
 	let $FZF_DEFAULT_OPTS = ""
 	let g:fzf_layout = {'down':'10'}
@@ -526,37 +577,9 @@
     autocmd  FileType fzf set laststatus=0 noshowmode noruler nonumber norelativenumber cmdheight=0
       \| autocmd BufLeave <buffer> set laststatus=1 showmode ruler number relativenumber cmdheight=1
 
-	" Redundant to NERDTree's implementation to change selected node permissions
-	" https://github.com/preservim/nerdtree/pull/1348
-	function! ChangePermissions()
-		let l:node = expand('%')
+	" enable syntax highlight inside markdown codeblocks
+	let g:markdown_fenced_languages = [
+				\"html", "javascript", "js=javascript", "go", "golang=go",
+				\"css", "dot", "xml", "python", "c", "c++=cpp", "sh",
+				\"bash=sh", "vim", "lua" ]
 
-		let l:prompt = "Change node permissions: "
-
-		echohl Question
-		let l:newNodePerm = input(l:prompt)
-		echohl None
-		mod
-
-		if empty(l:newNodePerm)
-			return
-		endif
-
-		if !empty(l:node)
-			let l:cmd = 'chmod ' .. newNodePerm .. ' ' .. l:node
-			let l:error = split(system(l:cmd), '\n')
-
-			if !empty(l:error)
-				echo l:error
-			endif
-
-			let l:cmd = 'ls --zero -l ' .. l:node
-			let l:ls_node = system(l:cmd)
-			echo l:ls_node
-			return
-		endif
-
-		echo 'node not recognized'
-	endfunction
-
-	nnoremap <Leader>p :call ChangePermissions()<CR>
